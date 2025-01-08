@@ -1,0 +1,76 @@
+#cloud-config
+# See the autoinstall documentation at:
+# https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html
+autoinstall:
+  apt:
+    disable_components: []
+    fallback: offline-install
+    geoip: true
+    mirror-selection:
+      primary:
+      - country-mirror
+      - arches: &id001
+        - amd64
+        - i386
+        uri: http://archive.ubuntu.com/ubuntu/
+      - arches: &id002
+        - s390x
+        - arm64
+        - armhf
+        - powerpc
+        - ppc64el
+        - riscv64
+        uri: http://ports.ubuntu.com/ubuntu-ports
+    preserve_sources_list: false
+    security:
+    - arches: *id001
+      uri: http://security.ubuntu.com/ubuntu/
+    - arches: *id002
+      uri: http://ports.ubuntu.com/ubuntu-ports
+  codecs:
+    install: false
+  drivers:
+    install: false
+  identity:
+    hostname: edge-data-collector
+    password: $6$ti2P0IEbMvSQzg1A$TsKh3wVNW7Koavf9Y56bLn4//p2hv0D1nUXMIP3zLZXcRwOf556I6yxU95Q/.pEXJ2RVMDPnWUVcuYHZPbf2S/
+    realname: Pig Iron
+    username: pigiron
+  kernel:
+    package: linux-generic
+  keyboard:
+    layout: us
+    toggle: null
+    variant: ''
+  locale: en_US.UTF-8
+  network:
+    ethernets:
+      enp3s0:
+        addresses:
+        - 10.15.16.125/24
+        nameservers:
+          addresses:
+          - 208.67.222.222
+          - 208.67.220.220
+          - 8.8.8.8
+          - 8.8.4.4
+          search: []
+        routes:
+        - to: default
+          via: 10.15.16.247
+    version: 2
+  oem:
+    install: auto
+  source:
+    id: ubuntu-server
+    search_drivers: false
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: true
+  storage:
+    layout:
+      name: lvm
+      sizing-policy: all
+  updates: security
+  version: 1
